@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Graphical Method{% endblock %}
+
+{% block content %}
+    <h1>Graphical Method</h1>
+    <p class="intro-text">
+        The Graphical Method is a simple technique used to solve linear programming problems with two variables.
+    </p>
+    <p class="intro-text">
+        By plotting the constraints on a graph, the feasible region is identified, and the objective function is
+        evaluated at the vertices of this region to find the optimal solution.
+    </p>
+    <div class="buttons" id="buttons">
+        <a href="{% url 'graphical_steps' %}">Steps to Solve</a>
+        <a href="{% url 'graphical_solve' %}">Solve Problem</a>
+        <a href="{% url 'graphical_application' %}">Applications</a> <!-- Add this line -->
+    </div>
+{% endblock %}

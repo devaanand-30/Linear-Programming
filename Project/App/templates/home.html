@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Mathematical Programming{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Mathematical Programming</h1>
+    <p class="intro-text">
+        Mathematical programming is a powerful tool used to solve optimization problems. 
+        It helps in finding the best possible solution to a problem within given constraints.
+    </p>
+    <p class="intro-text">
+        Linear Programming is a mathematical method used to optimize a specific objective, 
+        such as maximizing profit or minimizing cost, subject to a set of linear constraints. 
+        It is widely applied in areas like resource allocation, logistics, and decision-making, 
+        providing efficient solutions to complex problems.
+    </p>
+    <div class="buttons" id="buttons">
+        <a href="{% url 'graphical_method' %}" id="btn-1">Graphical Method</a>
+        <a href="{% url 'simplex_method' %}" id="btn-2">Simplex Method</a>
+        <a href="{% url 'transportation_method' %}" id="btn-3">Transportation Method</a>
+        <a href="{% url 'terraform_home' %}" id="btn-4">Terraform a Planet 🌍</a>
+    </div>
+{% endblock %}

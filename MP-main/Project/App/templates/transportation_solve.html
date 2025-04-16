@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Solve Transportation Problem{% endblock %}
+
+{% block content %}
+<h1>Solve Transportation Problem</h1>
+<p>Enter the details below to solve a transportation problem.</p>
+
+<div class="container">
+    <form method="post" action="{% url 'transportation_solve' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="method">Select Method:</label>
+            <select id="method" name="method" class="form-control">
+                <option value="north_west">North-West Corner</option>
+                <option value="least_cost">Least Cost</option>
+                <option value="vogels">Vogel's Approximation</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="supply">Supply Values (space-separated):</label>
+            <input type="text" id="supply" name="supply" class="form-control" placeholder="e.g., 30 40 20" required>
+        </div>
+
+        <div class="form-group">
+            <label for="demand">Demand Values (space-separated):</label>
+            <input type="text" id="demand" name="demand" class="form-control" placeholder="e.g., 20 50 20" required>
+        </div>
+
+        <button type="button" class="btn btn-secondary" onclick="generateCostInputs()">Generate Cost Matrix</button>
+
+        <div id="cost-matrix"></div>
+
+        <br><br>
+        <button type="submit" class="btn btn-primary">Solve</button>
+    </form>
+</div>
+
+<script>
+    function generateCostInputs() {
+        const supply = document.getElementById('supply').value.trim().split(' ');
+        const demand = document.getElementById('demand').value.trim().split(' ');
+        const costMatrixDiv = document.getElementById('cost-matrix');
+        costMatrixDiv.innerHTML = '';
+
+        if (supply.length === 0 || demand.length === 0) {
+            alert('Please enter supply and demand values.');
+            return;
+        }
+
+        for (let i = 0; i < supply.length; i++) {
+            const formGroup = document.createElement('div');
+            formGroup.className = 'form-group';
+
+            const label = document.createElement('label');
+            label.textContent = `Costs from Supply ${i + 1} to Demands (space-separated):`;
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = `row_${i}`;
+            input.className = 'form-control';
+            input.placeholder = 'e.g., 8 6 10';
+
+            formGroup.appendChild(label);
+            formGroup.appendChild(input);
+            costMatrixDiv.appendChild(formGroup);
+        }
+    }
+</script>
+{% endblock %}

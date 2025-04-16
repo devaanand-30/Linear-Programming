@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mission Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Orbitron', sans-serif;
+            background-image: url("{% static 'missiondashboard.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ffffff;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.85);
+            max-width: 650px;
+            margin: 5% auto;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px #00ffffaa;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #0ff;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        input, select, .select2-container--default .select2-selection--single {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            background-color: #1a1a1a;
+            color: #0ff;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 14px;
+            font-size: 1.2rem;
+            background: linear-gradient(to right, #0ff, #0088ff);
+            color: black;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 18px #00ffffaa;
+        }
+
+        .result {
+            margin-top: 30px;
+            background-color: rgba(255, 255, 255, 0.07);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: inset 0 0 15px #00ffff44;
+        }
+
+        .result strong {
+            color: #00ffff;
+        }
+
+        /* Progress bar styles */
+        .progress-bar {
+            height: 22px;
+            background-color: #222;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px #000;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.5s ease-in-out;
+            border-radius: 12px 0 0 12px;
+        }
+
+        .fill-0 { width: 0%; }
+        .fill-10 { width: 10%; }
+        .fill-20 { width: 20%; }
+        .fill-30 { width: 30%; }
+        .fill-40 { width: 40%; }
+        .fill-50 { width: 50%; }
+        .fill-60 { width: 60%; }
+        .fill-70 { width: 70%; }
+        .fill-80 { width: 80%; }
+        .fill-90 { width: 90%; }
+        .fill-100 { width: 100%; }
+
+        .fill-0, .fill-10, .fill-20, .fill-30 {
+            background: linear-gradient(to right, #ff0033, #cc0000);
+        }
+
+        .fill-40, .fill-50, .fill-60 {
+            background: linear-gradient(to right, #ffcc00, #ffaa00);
+        }
+
+        .fill-70, .fill-80, .fill-90, .fill-100 {
+            background: linear-gradient(to right, #00ffcc, #0077ff);
+        }
+
+        /* Select2 Styling Fixes */
+        .select2-container .select2-selection--single {
+            height: 44px;
+            background-color: #1a1a1a;
+            border: none;
+            color: #0ff;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #0ff;
+            line-height: 44px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🚀 Mission Planning Dashboard</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="destination">Choose Destination:</label>
+            <select name="destination" id="destination" class="select2" required>
+                <option value="" disabled {% if not destination %}selected{% endif %}>Select a planet...</option>
+            
+                <optgroup label="🪐 Inner Planets">
+                    <option value="Mercury" {% if destination == "Mercury" %}selected{% endif %}>☿ Mercury</option>
+                    <option value="Venus" {% if destination == "Venus" %}selected{% endif %}>♀ Venus</option>
+                    <option value="Earth" {% if destination == "Earth" %}selected{% endif %}>🌍 Earth</option>
+                    <option value="Mars" {% if destination == "Mars" %}selected{% endif %}>♂ Mars</option>
+                </optgroup>
+            
+                <optgroup label="🌌 Gas Giants">
+                    <option value="Jupiter" {% if destination == "Jupiter" %}selected{% endif %}>♃ Jupiter</option>
+                    <option value="Saturn" {% if destination == "Saturn" %}selected{% endif %}>♄ Saturn</option>
+                </optgroup>
+            
+                <optgroup label="🌀 Ice Giants">
+                    <option value="Uranus" {% if destination == "Uranus" %}selected{% endif %}>♅ Uranus</option>
+                    <option value="Neptune" {% if destination == "Neptune" %}selected{% endif %}>♆ Neptune</option>
+                </optgroup>
+            </select>
+            
+
+            <label for="fuel">Fuel Capacity (tons):</label>
+            <input type="number" name="fuel" id="fuel" value="{{ fuel }}" required>
+
+            <label for="cargo">Cargo Weight (tons):</label>
+            <input type="number" name="cargo" id="cargo" value="{{ cargo }}" required>
+
+            <button type="submit">Plan Mission</button>
+        </form>
+
+        {% if success_probability %}
+        <div class="result">
+            <h3>🛰️ Mission to {{ destination }}</h3>
+            <p>Fuel: {{ fuel }} tons</p>
+            <p>Cargo: {{ cargo }} tons</p>
+            <p>Mission Success Probability: <strong>{{ success_probability }}%</strong></p>
+            <div class="progress-bar">
+                <div class="progress-fill fill-{{ success_probability|floatformat:0 }}"></div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- JS for Select2 Dropdown -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#destination').select2({
+                placeholder: 'Select a planet...',
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,214 @@
+{% extends 'base1.html' %}
+
+
+{% block title %}Simplex Method - Steps to Solve{% endblock %}
+
+{% block content %}
+<h1>Simplex Method - Steps to Solve</h1>
+
+<p>
+    The Simplex Method is an iterative algorithm used to solve linear programming problems with more than two variables.
+    It systematically moves from one feasible solution to another, in search of the optimal solution, using a tabular representation called the simplex tableau.
+</p>
+
+<h2>Steps to Solve a Linear Programming Problem Using the Simplex Method</h2>
+
+<ol>
+    <li>
+        <strong>Formulate the Linear Programming Problem:</strong>
+        <ul>
+            <li><strong>Decision Variables:</strong> Define the variables to be determined.</li>
+            <li><strong>Objective Function:</strong> Establish the function to maximize or minimize.</li>
+            <li><strong>Constraints:</strong> List all the limitations as linear inequalities.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Convert Inequalities to Equations by Adding Slack Variables:</strong>
+        <ul>
+            <li>Add slack variables to convert ≤ constraints into equalities.</li>
+            <li>Slack variables represent unused resources and are non-negative.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Set Up the Initial Simplex Tableau:</strong>
+        <ul>
+            <li>Create a tableau including coefficients of decision and slack variables.</li>
+            <li>The tableau consists of rows for constraints and one row for the objective function.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Identify the Pivot Element:</strong>
+        <ul>
+            <li><strong>Entering Variable:</strong> The variable with the most negative coefficient in the objective function row.</li>
+            <li><strong>Leaving Variable:</strong> Determined by the minimum ratio test (RHS divided by pivot column entries).</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Perform Row Operations to Form a New Tableau:</strong>
+        <ul>
+            <li><strong>Pivot Row:</strong> Divide the entire pivot row by the pivot element to make it 1.</li>
+            <li><strong>Other Rows:</strong> Make the pivot column entries zero in all other rows.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Check for Optimality:</strong>
+        <ul>
+            <li>If all coefficients in the objective function row are non-negative, an optimal solution is reached.</li>
+            <li>Otherwise, repeat steps 4 and 5.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Read the Solution from the Final Tableau:</strong>
+        <ul>
+            <li>The values of decision variables are in the RHS column corresponding to their basic variables.</li>
+            <li>The optimal value is in the RHS of the objective function row.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Interpret the Results:</strong>
+        <ul>
+            <li>Provide the optimal values of the decision variables and the objective function, ensuring practical applicability.</li>
+        </ul>
+    </li>
+</ol>
+
+<h2>Example Problem: Maximizing Z</h2>
+
+<p><strong>Problem Statement:</strong></p>
+<p>
+    Maximize \( Z = 3x_1 + 2x_2 \)
+</p>
+<p>Subject to:</p>
+<ul>
+    <li>\( x_1 + x_2 \leq 4 \)</li>
+    <li>\( x_1 \leq 2 \)</li>
+    <li>\( x_2 \leq 3 \)</li>
+    <li>\( x_1, x_2 \geq 0 \)</li>
+</ul>
+
+<h3>Step-by-Step Solution</h3>
+
+<ol>
+    <li>
+        <strong>Define Decision Variables and Objective Function:</strong>
+        <p>\( x_1, x_2 \) are the decision variables.</p>
+        <p>Objective Function: Maximize \( Z = 3x_1 + 2x_2 \).</p>
+    </li>
+    <li>
+        <strong>Convert Inequalities to Equations with Slack Variables:</strong>
+        <ul>
+            <li>\( x_1 + x_2 + s_1 = 4 \)</li>
+            <li>\( x_1 + s_2 = 2 \)</li>
+            <li>\( x_2 + s_3 = 3 \)</li>
+            <li>Slack Variables: \( s_1, s_2, s_3 \geq 0 \)</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Set Up Initial Simplex Tableau:</strong>
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Basis</th>
+                <th>\( x_1 \)</th>
+                <th>\( x_2 \)</th>
+                <th>\( s_1 \)</th>
+                <th>\( s_2 \)</th>
+                <th>\( s_3 \)</th>
+                <th>RHS</th>
+            </tr>
+            <tr>
+                <td>\( s_1 \)</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>\( s_2 \)</td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>\( s_3 \)</td>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td>1</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>\( Z \)</td>
+                <td>-3</td>
+                <td>-2</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+        </table>
+    </li>
+    <li>
+        <strong>First Iteration - Identify Pivot Element:</strong>
+        <ul>
+            <li><strong>Entering Variable:</strong> \( x_1 \) (most negative in \( Z \) row)</li>
+            <li><strong>Leaving Variable:</strong> \( s_2 \) (smallest positive ratio \( \frac{2}{1} = 2 \))</li>
+            <li><strong>Pivot Element:</strong> 1 (Row 2, Column \( x_1 \))</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Perform Row Operations:</strong>
+        <ul>
+            <li>Make pivot element 1 (it's already 1).</li>
+            <li>Eliminate \( x_1 \) from other rows.</li>
+            <li>Update the tableau accordingly.</li>
+        </ul>
+        <p>Updated Tableau:</p>
+        <!-- Insert updated tableau here -->
+    </li>
+    <li>
+        <strong>Second Iteration - Check for Optimality:</strong>
+        <ul>
+            <li>Check \( Z \) row for negative indicators.</li>
+            <li>Since \( -2 \) (for \( x_2 \)) is still negative, proceed with another iteration.</li>
+            <li><strong>Entering Variable:</strong> \( x_2 \)</li>
+            <li><strong>Leaving Variable:</strong> \( s_3 \) (smallest positive ratio)</li>
+            <li><strong>Pivot Element:</strong> 1 (Row 3, Column \( x_2 \))</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Perform Row Operations:</strong>
+        <ul>
+            <li>Make pivot element 1.</li>
+            <li>Eliminate \( x_2 \) from other rows.</li>
+            <li>Update the tableau accordingly.</li>
+        </ul>
+        <p>Updated Tableau:</p>
+        <!-- Insert updated tableau here -->
+    </li>
+    <li>
+        <strong>Check for Optimality:</strong>
+        <ul>
+            <li>All indicators in the \( Z \) row are non-negative.</li>
+            <li>The current solution is optimal.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Read the Solution from the Final Tableau:</strong>
+        <ul>
+            <li>\( x_1 = 2 \)</li>
+            <li>\( x_2 = 3 \)</li>
+            <li>Optimal Value \( Z = 3(2) + 2(3) = 12 \)</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Interpret the Results:</strong>
+        <p>The optimal solution is to choose \( x_1 = 2 \) and \( x_2 = 3 \) to achieve a maximum value of \( Z = 12 \).</p>
+    </li>
+</ol>
+{% endblock %}

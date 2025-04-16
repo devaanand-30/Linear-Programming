@@ -1,0 +1,185 @@
+{% extends 'base1.html' %}
+
+
+{% block title %}Transportation Method - Steps to Solve{% endblock %}
+
+{% block content %}
+<h1>Transportation Method - Steps to Solve</h1>
+
+<p>
+    The Transportation Model is used to determine the most cost-effective way to distribute products from several suppliers to several consumers while satisfying supply and demand constraints.
+</p>
+
+<h2>Steps to Solve a Transportation Problem</h2>
+
+<ol>
+    <li>
+        <strong>Formulate the Problem:</strong>
+        <ul>
+            <li><strong>Supply and Demand:</strong>
+                <ul>
+                    <li>List the supply capacity of each source (e.g., factories).</li>
+                    <li>List the demand requirements of each destination (e.g., warehouses).</li>
+                </ul>
+            </li>
+            <li><strong>Create the Cost Matrix:</strong>
+                <ul>
+                    <li>Input the transportation cost per unit from each source to each destination.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong>Check for Balance:</strong>
+        <ul>
+            <li><strong>Balanced Problem:</strong> Total Supply equals Total Demand.</li>
+            <li><strong>Unbalanced Problem:</strong> Add a dummy source or destination to balance the problem.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Initialize the Solution Using One of the Methods:</strong>
+        <ul>
+            <li><strong>North-West Corner Method</strong></li>
+            <li><strong>Least Cost Method</strong></li>
+            <li><strong>Vogel's Approximation Method (VAM)</strong></li>
+        </ul>
+    </li>
+    <li>
+        <strong>Create the Initial Allocation Table:</strong>
+        <ul>
+            <li>Record the allocations made during initialization.</li>
+            <li>Ensure that all supply and demand requirements are met.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Test the Initial Solution for Optimality:</strong>
+        <ul>
+            <li>Use the Modified Distribution Method (MODI) or the Stepping Stone Method.</li>
+            <li>Calculate the opportunity cost for each empty cell.</li>
+            <li>Identify if there is a possibility to reduce the total cost.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Adjust the Solution:</strong>
+        <ul>
+            <li>Find a closed path and adjust allocations.</li>
+            <li>Update the allocations to reduce total cost.</li>
+            <li>Re-calculate opportunity costs and repeat the optimality test if necessary.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Determine the Optimal Solution:</strong>
+        <ul>
+            <li>Calculate the total transportation cost.</li>
+            <li>Present the final transportation plan.</li>
+        </ul>
+    </li>
+</ol>
+
+<h2>Example Problem</h2>
+
+<p><strong>Problem Statement:</strong></p>
+<p>
+    A company needs to transport goods from three factories to three warehouses.
+    The supply at each factory, the demand at each warehouse, and the shipping costs per unit are given below.
+</p>
+
+<h3>Supply:</h3>
+<ul>
+    <li>Factory F1: 20 units</li>
+    <li>Factory F2: 40 units</li>
+    <li>Factory F3: 40 units</li>
+</ul>
+
+<h3>Demand:</h3>
+<ul>
+    <li>Warehouse W1: 30 units</li>
+    <li>Warehouse W2: 25 units</li>
+    <li>Warehouse W3: 45 units</li>
+</ul>
+
+<h3>Cost Matrix:</h3>
+<table border="1" cellpadding="5">
+    <tr>
+        <th></th>
+        <th>W1 (\$2)</th>
+        <th>W2 (\$3)</th>
+        <th>W3 (\$11)</th>
+    </tr>
+    <tr>
+        <th>F1</th>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <th>F2</th>
+        <td>\$6</td>
+        <td>\$1</td>
+        <td>\$9</td>
+    </tr>
+    <tr>
+        <th>F3</th>
+        <td>\$10</td>
+        <td>\$5</td>
+        <td>\$8</td>
+    </tr>
+</table>
+
+<h3>Steps to Solve Using the Least Cost Method</h3>
+
+<ol>
+    <li>
+        <strong>Identify the Cell with the Lowest Cost:</strong>
+        <p>The lowest cost is \$1 (F2 → W2).</p>
+    </li>
+    <li>
+        <strong>Allocate as Much as Possible:</strong>
+        <p>Allocate min(40,25) = 25 units to F2 → W2.</p>
+        <p>Update Supply and Demand:</p>
+        <ul>
+            <li>F2 Supply left: \( 40 - 25 = 15 \)</li>
+            <li>W2 Demand met: \( 25 - 25 = 0 \)</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Repeat the Process:</strong>
+        <p>Next lowest cost is \$2 (F1 → W1).</p>
+        <p>Allocate min(20,30) = 20 units to F1 → W1.</p>
+        <p>Update Supply and Demand:</p>
+        <ul>
+            <li>F1 Supply exhausted: \( 20 - 20 = 0 \)</li>
+            <li>W1 Demand left: \( 30 - 20 = 10 \)</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Continue Allocations:</strong>
+        <p>Next lowest cost is \$3 (F1 → W2), but F1 is exhausted.</p>
+        <p>Next is \$5 (F3 → W2), but W2 demand is met.</p>
+        <p>Allocate to F2 → W1 (\$6): min(15,10) = 10 units.</p>
+        <p>Update Supply and Demand:</p>
+        <ul>
+            <li>F2 Supply left: \( 15 - 10 = 5 \)</li>
+            <li>W1 Demand met: \( 10 - 10 = 0 \)</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Finalize Allocations:</strong>
+        <p>Allocate remaining F2 supply to F2 → W3 (\$9): 5 units.</p>
+        <p>Allocate remaining F3 supply to F3 → W3 (\$8): 40 units.</p>
+    </li>
+</ol>
+
+<h3>Compute Total Transportation Cost</h3>
+
+<p>
+    \( \text{Total Cost} = (20 \times \$2) + (10 \times \$6) + (25 \times \$1) + (5 \times \$9) + (40 \times \$8) = \$490 \)
+</p>
+
+<h2>Interpretation</h2>
+
+<p>
+    The company should transport goods as per the allocations to minimize transportation costs.
+    The Least Cost Method provided an efficient initial solution.
+</p>
+{% endblock %}

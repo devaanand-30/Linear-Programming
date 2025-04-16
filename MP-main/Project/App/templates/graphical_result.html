@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Graphical Method Solution{% endblock %}
+
+{% block content %}
+<h1>Graphical Solution</h1>
+
+{% if error %}
+    <div class="alert alert-danger">
+        <p><strong>Error:</strong> {{ error }}</p>
+    </div>
+{% endif %}
+
+{% if no_solution %}
+    <div class="alert alert-warning">
+        <p><strong>{{ solution_message }}</strong></p>
+    </div>
+{% elif x1_opt and x2_opt %}
+    <h3>Optimal Solution</h3>
+    <p><strong>x₁ =</strong> {{ x1_opt }}</p>
+    <p><strong>x₂ =</strong> {{ x2_opt }}</p>
+    <p><strong>Objective Value (Z) =</strong> {{ objective_value }}</p>
+{% endif %}
+
+{% if graph %}
+    <h2>Feasible Region and Constraints</h2>
+    <img src="data:image/png;base64,{{ graph }}" alt="Graphical Solution" style="max-width:100%; height:auto;">
+{% else %}
+    <p>No graph generated.</p>
+{% endif %}
+
+<a href="{% url 'graphical_solve' %}" class="btn btn-secondary">Try Again</a>
+{% endblock %}

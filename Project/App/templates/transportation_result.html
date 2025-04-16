@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Transportation Result{% endblock %}
+
+{% block content %}
+<h1>Transportation Result</h1>
+
+<div class="container">
+    {% if error %}
+        <div class="alert alert-danger">
+            <strong>Error:</strong> {{ error }}
+        </div>
+    {% else %}
+        {% if result %}
+            <h3>Optimal Allocation:</h3>
+            <table class="table table-bordered">
+                {% for row in result.allocation %}
+                    <tr>
+                        {% for val in row %}
+                            <td>{{ val }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            <h4>Total Cost: {{ result.total_cost }}</h4>
+        {% else %}
+            <p>{{ result }}</p>
+        {% endif %}
+    {% endif %}
+    <br>
+    <a href="{% url 'transportation_solve' %}" class="btn btn-primary">Back to Solver</a>
+</div>
+{% endblock %}

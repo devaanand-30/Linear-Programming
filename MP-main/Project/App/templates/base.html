@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematical Programming</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #000428, #004e92);
+            color: #ffffff;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            animation: backgroundShift 10s infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            0% { background: linear-gradient(180deg, #000428, #004e92); }
+            100% { background: linear-gradient(180deg, #004e92, #00c6ff); }
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            transform: translateY(100px);
+            opacity: 0;
+            animation: slideUp 1.2s ease-out forwards;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 1);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+            animation: glow 1.5s infinite alternate;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 0, 255, 0.8); }
+            to { text-shadow: 0 0 30px rgba(0, 255, 255, 1); }
+        }
+
+        .intro-text {
+            font-size: 1.3rem;
+            color: #d1f0ff;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .buttons a {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+            transition: all 0.4s ease-in-out;
+            letter-spacing: 2px;
+        }
+
+        .buttons a:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mathematical Programming</h1>
+        <div class="intro-text">{% block content %}{% endblock %}</div>
+        <div class="buttons" id="buttons">
+            <a href="{% url 'terraform_home' %}" id="btn-4">Terraform a Planet 🌍</a>
+            <a href="{% url 'mission_dashboard' %}">Mission Dashboard</a>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const texts = document.querySelectorAll('.intro-text');
+            texts.forEach((text, index) => {
+                setTimeout(() => {
+                    text.style.opacity = 1;
+                    text.style.transform = 'translateY(0)';
+                }, index * 1000);
+            });
+
+            setTimeout(() => {
+                const buttons = document.getElementById('buttons');
+                buttons.style.opacity = 1;
+                buttons.style.transform = 'translateY(0)';
+                buttons.style.transition = 'opacity 1s ease, transform 1s ease';
+            }, texts.length * 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Solve Problem (Graphical Method){% endblock %}
+
+{% block content %}
+<h1>Solve Problem (Graphical Method)</h1>
+<p>Enter the details below. The graphical method only works for problems with two variables.</p>
+
+<div class="container">
+    {% if error %}
+        <div class="alert alert-danger">
+            <p><strong>Error:</strong> {{ error }}</p>
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'graphical_solve' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="opt_type">Optimization Type:</label>
+            <select id="opt_type" name="opt_type" class="form-control">
+                <option value="maximize">Maximize</option>
+                <option value="minimize">Minimize</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="objective">Objective Function Coefficients (c₁ c₂):</label>
+            <input type="text" id="objective" name="objective" class="form-control" placeholder="e.g., 3 5" required>
+        </div>
+
+        <h3>Constraints</h3>
+        <div id="constraints">
+            <div class="constraint form-group">
+                <label>Constraint Coefficients and RHS (a₁ a₂ b):</label>
+                <input type="text" name="constraints[]" class="form-control" placeholder="e.g., 1 2 20" required>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeConstraint(this)">Remove</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-success btn-sm" onclick="addConstraint()">Add Constraint</button>
+
+        <br><br>
+        <button type="submit" class="btn btn-primary">Plot Graph</button>
+    </form>
+</div>
+
+<script>
+    function addConstraint() {
+        const constraintsDiv = document.getElementById('constraints');
+        const newConstraint = document.createElement('div');
+        newConstraint.className = 'constraint form-group';
+        newConstraint.innerHTML = `
+            <label>Constraint Coefficients and RHS (a₁ a₂ b):</label>
+            <input type="text" name="constraints[]" class="form-control" placeholder="e.g., 1 2 20" required>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeConstraint(this)">Remove</button>
+        `;
+        constraintsDiv.appendChild(newConstraint);
+    }
+
+    function removeConstraint(button) {
+        button.parentNode.remove();
+    }
+</script>
+{% endblock %}

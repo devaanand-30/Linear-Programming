@@ -1,0 +1,229 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Terraform a Planet</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .stars {
+            width: 2px;
+            height: 2px;
+            background: white;
+            position: absolute;
+            z-index: 0;
+            animation: moveStars 200s linear infinite;
+        }
+
+        @keyframes moveStars {
+            from {transform: translateY(0);}
+            to {transform: translateY(2000px);}
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            padding: 30px;
+            max-width: 600px;
+            margin: 100px auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 0 20px #0ff;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0ff;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #0ff;
+            border: none;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #00d4ff;
+        }
+
+        .planet-image {
+            display: block;
+            margin: 20px auto;
+            width: 160px;
+            height: 160px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+        }
+
+        .rank, .level {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: gold;
+        }
+
+        .details {
+            margin-top: 20px;
+            color: #ccc;
+        }
+
+        .details p {
+            margin: 5px 0;
+        }
+
+        .result-section {
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px #00ffff44;
+        }
+
+        .progress-bar {
+            height: 20px;
+            border-radius: 10px;
+            background: #333;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #0ff, #00d4ff);
+            transition: width 1s ease-in-out;
+        }
+
+        .glow {
+            animation: glowEffect 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowEffect {
+            from {box-shadow: 0 0 10px #0ff;}
+            to {box-shadow: 0 0 20px #0ff;}
+        }
+    </style>
+</head>
+<body>
+<script>
+    for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.className = 'stars';
+        star.style.top = `${Math.random() * window.innerHeight}px`;
+        star.style.left = `${Math.random() * window.innerWidth}px`;
+        star.style.opacity = Math.random();
+        document.body.appendChild(star);
+    }
+</script>
+
+<!-- Gold Planet Sound -->
+<audio id="goldSound">
+    <source src="https://cdn.pixabay.com/audio/2023/03/21/audio_7307b4fd3b.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <h1>🌌 Terraform a Planet</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="atmosphere">Atmosphere Type:</label>
+        <select name="atmosphere" id="atmosphere" required>
+            <option value="oxygen-rich">Oxygen-Rich</option>
+            <option value="carbon-dioxide">Carbon Dioxide</option>
+            <option value="methane">Methane</option>
+            <option value="none">None</option>
+        </select>
+
+        <label for="temperature">Temperature (°C):</label>
+        <input type="number" name="temperature" id="temperature" required>
+
+        <label for="gravity">Gravity (m/s²):</label>
+        <input type="number" name="gravity" id="gravity" required>
+
+        <button type="submit">🛰️ Evaluate Habitability</button>
+    </form>
+
+    {% if habitability is not None %}
+    <div class="result-section">
+        <h2>Result</h2>
+
+        <div class="rank">
+            {% if habitability >= 90 %}
+                🥇 <strong>Gold Planet</strong> – Ideal for Colonization!
+                <script>document.getElementById('goldSound').play();</script>
+                <img class="planet-image glow" src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg" alt="Gold Planet">
+            {% elif habitability >= 70 %}
+                🥈 <strong>Silver Planet</strong> – Good Conditions
+                <img class="planet-image" src="https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg" alt="Silver Planet">
+            {% elif habitability >= 50 %}
+                🥉 <strong>Bronze Planet</strong> – Barely Habitable
+                <img class="planet-image" src="{% static 'Bronze_Planet.png' %}" alt="Bronze Planet">
+
+            {% else %}
+                🚫 <strong>Not Habitable</strong> – Requires Major Terraforming
+                <img class="planet-image" src="{% static 'Not_Habitable.png' %}" alt="Dead Planet">
+
+            {% endif %}
+        </div>
+
+        <div class="progress-bar">
+             <div class="progress-fill fill-{{ habitability|floatformat:0 }}"></div>
+        </div>
+
+        <div class="level">
+            {% if habitability < 30 %}
+                🔴 Level 1: Bare Survival
+            {% elif habitability < 50 %}
+                🟠 Level 2: Harsh Frontier
+            {% elif habitability < 70 %}
+                🟡 Level 3: Livable Colony
+            {% elif habitability < 90 %}
+                🟢 Level 4: Thriving Ecosystem
+            {% else %}
+                🟣 Level 5: Advanced Civilization
+            {% endif %}
+        </div>
+
+        <div class="details">
+            <p><strong>Atmosphere:</strong> {{ atmosphere }}</p>
+            <p><strong>Temperature:</strong> {{ temperature }}°C</p>
+            <p><strong>Gravity:</strong> {{ gravity }} m/s²</p>
+            <p><strong>Habitability Score:</strong> {{ habitability }}/100</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Transportation Method{% endblock %}
+
+{% block content %}
+    <h1>Transportation Method</h1>
+    <p class="intro-text">
+        The <strong>Transportation Method</strong> is a specialized technique used to solve transportation problems, where the goal is to minimize the cost of transporting goods from multiple suppliers to multiple consumers. This method optimizes the allocation of resources based on supply, demand, and transportation costs, providing an efficient solution to logistical challenges in industries like shipping, manufacturing, and distribution.
+    </p>
+    <div class="buttons" id="buttons">
+        <a href="{% url 'transportation_steps' %}">Steps to Solve</a>
+        <a href="{% url 'transportation_solve' %}">Solve Problem</a>
+        <a href="{% url 'transportation_application' %}">Applications</a> <!-- Add this line -->
+    </div>
+{% endblock %}

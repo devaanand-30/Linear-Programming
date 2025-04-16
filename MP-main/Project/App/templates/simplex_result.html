@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Result{% endblock %}
+
+{% block content %}
+<h1>Optimal Solution</h1>
+
+<div class="container">
+    {% if error %}
+        <div class="alert alert-danger">
+            <p><strong>Error:</strong> {{ error }}</p>
+        </div>
+    {% else %}
+        <div class="alert alert-success">
+            <h3>Solution:</h3>
+            <ul>
+                {% for var, value in solution.items %}
+                    <li><strong>{{ var }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+            <h4>Optimal Value: {{ optimal_value }}</h4>
+        </div>
+    {% endif %}
+
+    <a href="{% url 'simplex_solver' %}" class="btn btn-primary">Back to Solver</a>
+</div>
+{% endblock %}

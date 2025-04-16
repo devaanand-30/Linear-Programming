@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mathematical Programming{% endblock %}</title>
+    
+    <!-- Include base styles if any -->
+    <!-- <link rel="stylesheet" href="{% static 'styles/base.css' %}"> -->
+    
+    <!-- Block for extra CSS -->
+    {% block extra_css %}{% endblock %}
+    
+    <!-- MathJax Script for rendering mathematical expressions -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <div class="logo">
+                    <h1>Mathematical Programming</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'simplex_method' %}">Simplex Method</a></li>
+                    <li><a href="{% url 'graphical_method' %}">Graphical Method</a></li>
+                    <li><a href="{% url 'transportation_method' %}">Transportation Method</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mathematical Programming//vidyasagar2110. All rights reserved.</p>
+    </footer>
+
+    <!-- Include any additional scripts if needed -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
